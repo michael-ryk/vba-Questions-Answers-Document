@@ -6,6 +6,10 @@ Const LastColumnAreaToColor     As String = "E"
 Const GradeColumn               As String = "D"
 Const DateLastReviewColumn      As String = "E"
 Const DataFirstRow              As Integer = 7
+Const HistoryStartColumn        As String = "F"
+Const HistorySecondColmn        As String = "G"
+Const HistoryBeforeLastColumn   As String = "I"
+Const HistoryEndColumn          As String = "J"
 
 
 Sub QAE_SetGradeGreat()
@@ -34,20 +38,22 @@ Sub QAE_UpdateGrade(Grade As String)
     'Prevent out of boundaries select
     If (selectedRow < DataFirstRow) Then Exit Sub
     
-    'Warning if already revised today
+    'Warning if already revised today to add option to cancel action
     If (Cells(selectedRow, DateLastReviewColumn) = Date) Then
         promptAnswer = MsgBox("You already set a grade today. You want rewrite?", vbQuestion + vbYesNo + vbDefaultButton2, "Already set")
     End If
-    
     If (promptAnswer = 7) Then Exit Sub
-    If (promptAnswer = 6) Then selectedRowGrade = Left(selectedRowGrade, Len(selectedRowGrade) - 1)
     
     'Shift history area
-    Range("F" & selectedRow & ":I" & selectedRow).Copy
-    Range("G" & selectedRow & ":J" & selectedRow).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+    Range(HistoryStartColumn & selectedRow & ":" & HistoryBeforeLastColumn & selectedRow).Copy
+    Range(HistorySecondColmn & selectedRow & ":" & HistoryEndColumn & selectedRow).PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, SkipBlanks _
                 :=False, Transpose:=False
     Cells(selectedRow, GradeColumn) = Grade
     Cells(selectedRow, DateLastReviewColumn) = Date
+    'Color current History refer to answer
+    If (Grade = "Good") Then Cells(selectedRow, HistoryStartColumn).Interior.Color = RGB(226, 239, 218)
+    If (Grade = "Ok") Then Cells(selectedRow, HistoryStartColumn).Interior.Color = RGB(255, 242, 204)
+    If (Grade = "Bad") Then Cells(selectedRow, HistoryStartColumn).Interior.Color = RGB(255, 199, 206)
 
 End Sub
 

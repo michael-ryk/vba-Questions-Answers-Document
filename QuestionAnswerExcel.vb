@@ -2,14 +2,14 @@ Option Explicit
 
 'Global Constants
 Const FirstColumnAreaToColor    As String = "B"
-Const LastColumnAreaToColor     As String = "E"
+Const LastColumnAreaToColor     As String = "F"
 Const GradeColumn               As String = "D"
-Const DateLastReviewColumn      As String = "E"
+Const DateLastReviewColumn      As String = "F"
 Const DataFirstRow              As Integer = 7
-Const HistoryStartColumn        As String = "F"
-Const HistorySecondColmn        As String = "G"
-Const HistoryBeforeLastColumn   As String = "I"
-Const HistoryEndColumn          As String = "J"
+Const HistoryStartColumn        As String = "G"
+Const HistorySecondColmn        As String = "H"
+Const HistoryBeforeLastColumn   As String = "J"
+Const HistoryEndColumn          As String = "K"
 
 
 Sub QAE_SetGradeGreat()

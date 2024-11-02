@@ -44,12 +44,22 @@ Sub QAE_UpdateGrade(Grade As String)
     End If
     If (promptAnswer = 7) Then Exit Sub
     
+    'Calculate days passed from last revise
+    Dim lastDateRevised     As Date
+    lastDateRevised = Cells(selectedRow, DateLastReviewColumn)
+    Dim daysPassed          As Integer
+    daysPassed = DateDiff("d", lastDateRevised, Now)
+    
     'Shift history area
     Range(HistoryStartColumn & selectedRow & ":" & HistoryBeforeLastColumn & selectedRow).Copy
-    Range(HistorySecondColmn & selectedRow & ":" & HistoryEndColumn & selectedRow).PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, SkipBlanks _
-                :=False, Transpose:=False
+    Range(HistorySecondColmn & selectedRow & ":" & HistoryEndColumn & selectedRow).PasteSpecial _
+                Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    'Update data in cells
     Cells(selectedRow, GradeColumn) = Grade
     Cells(selectedRow, DateLastReviewColumn) = Date
+    Cells(selectedRow, HistoryStartColumn) = daysPassed
+    
     'Color current History refer to answer
     If (Grade = "Good") Then Cells(selectedRow, HistoryStartColumn).Interior.Color = RGB(226, 239, 218)
     If (Grade = "Ok") Then Cells(selectedRow, HistoryStartColumn).Interior.Color = RGB(255, 242, 204)

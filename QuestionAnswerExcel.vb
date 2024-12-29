@@ -48,7 +48,11 @@ Sub QAE_UpdateGrade(Grade As String)
     Dim lastDateRevised     As Date
     lastDateRevised = Cells(selectedRow, DateLastReviewColumn)
     Dim daysPassed          As Integer
-    daysPassed = DateDiff("d", lastDateRevised, Now)
+    If (lastDateRevised <> CDate("00:00:00")) Then
+        daysPassed = DateDiff("d", lastDateRevised, Now)
+    Else
+        daysPassed = 0
+    End If
     
     'Shift history area
     Range(HistoryStartColumn & selectedRow & ":" & HistoryBeforeLastColumn & selectedRow).Copy
